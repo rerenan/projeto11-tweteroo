@@ -115,4 +115,16 @@ server.post("/tweets", (req,res)=>{
     res.status(201).send("OK");
 })
 
+server.get("/tweets/:username",(req,res)=>{
+    const username = req.params.username;
+    const tweetsOfUser = tweets.filter((tweet)=> tweet.username === username).map((tweet) => { 
+        const userTweet = users.find((user)=> user.username === tweet.username);
+        return ({
+        "username": tweet.username,
+        "avatar": userTweet.avatar,
+        "tweet": tweet.tweet
+        });
+    })
+    res.send(tweetsOfUser)
+})
 server.listen(5000);
